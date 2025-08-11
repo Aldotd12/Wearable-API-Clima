@@ -25,9 +25,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-// -------------------------
-// Data classes
-// -------------------------
 data class RealtimeResponse(
     val data: RealtimeData
 )
@@ -43,9 +40,6 @@ data class RealtimeValues(
     val weatherCode: Int
 )
 
-// -------------------------
-// API Interface
-// -------------------------
 interface RealtimeWeatherApi {
     @GET("weather/realtime")
     suspend fun getRealtimeWeather(
@@ -54,9 +48,7 @@ interface RealtimeWeatherApi {
     ): RealtimeResponse
 }
 
-// -------------------------
-// Retrofit Instance
-// -------------------------
+
 val retrofit = Retrofit.Builder()
     .baseUrl("https://api.tomorrow.io/v4/")
     .addConverterFactory(GsonConverterFactory.create())
@@ -64,9 +56,6 @@ val retrofit = Retrofit.Builder()
 
 val realtimeApi: RealtimeWeatherApi = retrofit.create(RealtimeWeatherApi::class.java)
 
-// -------------------------
-// UI Composables
-// -------------------------
 @Composable
 fun RealtimeWeatherScreen(location: String, apiKey: String, name: String) {
     var weather by remember { mutableStateOf<RealtimeResponse?>(null) }
@@ -87,15 +76,15 @@ fun RealtimeWeatherScreen(location: String, apiKey: String, name: String) {
             .background(
                 Brush.verticalGradient(
                     colors = listOf(
-                        Color(0xFF2196F3), // Azul
-                        Color.White        // Blanco
+                        Color(0xFF2196F3),
+                        Color.White
                     )
                 )
             )
     ) {
-        // Imagen de nubes semitransparentes
+
         Image(
-            painter = painterResource(id = R.drawable.img), // coloca tu imagen en res/drawable
+            painter = painterResource(id = R.drawable.img),
             contentDescription = "Nubes",
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize(),
@@ -177,9 +166,6 @@ fun RealtimeWeatherScreen(location: String, apiKey: String, name: String) {
     }
 }
 
-// -------------------------
-// Funciones para iconos y descripción
-// -------------------------
 fun getWeatherIcon(code: Int): String {
     return when (code) {
         1000 -> "☀️"
@@ -212,9 +198,6 @@ fun getWeatherDescription(code: Int): String {
     }
 }
 
-// -------------------------
-// Main Activity
-// -------------------------
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
